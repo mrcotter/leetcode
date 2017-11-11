@@ -19,7 +19,7 @@ function twoSum(nums, target) {
     var map = new Map();
     let result = [];
 
-    for (let i=0; i < nums.length; i++) {
+    for (let i = 0; i < nums.length; i++) {
         map.set(nums[i], i);
     }
 
