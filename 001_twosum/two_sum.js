@@ -15,6 +15,11 @@ Usage:
     node two_sum.js 2 7 11 15 9, the last number is parsed as the target number.
 */
 
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
 function twoSum(nums, target) {
     var map = new Map();
     let result = [];
@@ -31,9 +36,9 @@ function twoSum(nums, target) {
     }
 
     if (result.length > 0) {
-        console.log(result);
+        return console.log(result);
     } else {
-        console.log("No two sum solution");
+        return console.log("No two sum solution");
     }
 }
 
