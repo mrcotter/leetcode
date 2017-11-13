@@ -11,26 +11,19 @@ Input: (2 -> 4 -> 3) + (5 -> 6 -> 4)
 Output: 7 -> 0 -> 8
 */
 
-// Definition for singly-linked list
-function Node(value) {
+// Constructor for singly-linked list
+function listNode(value) {
     this.value = value;
     this.next = null;
 }
 
-function linkedList() {
-    this._length = 0;
-    this.head = null;
-}
-
-linkedList.prototype.add = function(value) {
-    var node = new Node(value),
-        currentNode = this.head;
+listNode.prototype.add = function(value) {
+    var node = new listNode(value),
+        currentNode = this;
 
     // 1st use-case: an empty list 
     if (!currentNode) {
-        this.head = node;
-        this._length++;
-         
+        this = node;
         return node;
     }
 
@@ -40,10 +33,36 @@ linkedList.prototype.add = function(value) {
     }
 
     currentNode.next = node;
-    this._length++;
-    
     return node;
 };
+
+linkedList.prototype.build = function(num) {
+    var digits = [];
+    while (num > 0) {
+        digits.push = num % 10;
+        this.add(num % 10);
+        num = parseInt(num / 10);
+    }
+
+    return this;
+}
+
+linkedList.prototype.print = function() {
+    var output = "";
+    var current = this.head;
+
+    while (current) {
+        if (current.next != null) {
+            output += current.value + " -> ";
+        } else {
+            output += current.value;
+        }
+        
+        current = current.next;
+    }
+
+    console.log(output);
+}
 
 /**
  * @param {ListNode} l1
@@ -51,5 +70,42 @@ linkedList.prototype.add = function(value) {
  * @return {ListNode}
  */
 var addTwoNumbers = function(l1, l2) {
-    
+    var list, last;
+    var value = 0;
+    var node1 = l1.head, node2 = l2.head;
+
+    while (node1 || node2) {
+        if (node1) {
+            value += node1.value;
+            node1 = node1.next;
+        }
+        if (node2) {
+            value += node2.value;
+            node2 = node2.next;
+        }
+
+        if (last) {
+            last.next = new Node(value % 10);
+            last = last.next;
+        } else {
+            list = new Node(value % 10);
+            last = list;
+        }
+
+        value = value / 10 | 0;
+    }
+
+    if (value) {
+        last.next = new Node(value);
+    }
+
+    console.log(JSON.stringify(list, 0, 4));
+    return list;
 };
+
+let l1 = new linkedList(), l2 = new linkedList();
+l1.build(3421);
+l2.build(456);
+l1.print();
+l2.print();
+addTwoNumbers(l1, l2);
