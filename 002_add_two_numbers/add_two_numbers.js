@@ -23,7 +23,6 @@ listNode.prototype.add = function(value) {
 
     // 1st use-case: an empty list 
     if (!currentNode) {
-        this = node;
         return node;
     }
 
@@ -36,10 +35,8 @@ listNode.prototype.add = function(value) {
     return node;
 };
 
-linkedList.prototype.build = function(num) {
-    var digits = [];
+listNode.prototype.build = function(num) {
     while (num > 0) {
-        digits.push = num % 10;
         this.add(num % 10);
         num = parseInt(num / 10);
     }
@@ -47,11 +44,11 @@ linkedList.prototype.build = function(num) {
     return this;
 }
 
-linkedList.prototype.print = function() {
+listNode.prototype.print = function() {
     var output = "";
-    var current = this.head;
+    var current = this;
 
-    while (current) {
+    do {
         if (current.next != null) {
             output += current.value + " -> ";
         } else {
@@ -59,7 +56,7 @@ linkedList.prototype.print = function() {
         }
         
         current = current.next;
-    }
+    } while (current.next);
 
     console.log(output);
 }
@@ -72,16 +69,15 @@ linkedList.prototype.print = function() {
 var addTwoNumbers = function(l1, l2) {
     var list, last;
     var value = 0;
-    var node1 = l1.head, node2 = l2.head;
 
-    while (node1 || node2) {
-        if (node1) {
-            value += node1.value;
-            node1 = node1.next;
+    while (l1 || l2) {
+        if (l1) {
+            value += l1.value;
+            l1 = l1.next;
         }
-        if (node2) {
-            value += node2.value;
-            node2 = node2.next;
+        if (l2) {
+            value += l2.value;
+            l2 = l2.next;
         }
 
         if (last) {
@@ -103,9 +99,8 @@ var addTwoNumbers = function(l1, l2) {
     return list;
 };
 
-let l1 = new linkedList(), l2 = new linkedList();
-l1.build(3421);
-l2.build(456);
+let l1 = new listNode.build(324);
+let l2 = new listNode.build(456);
 l1.print();
 l2.print();
 addTwoNumbers(l1, l2);
