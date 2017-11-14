@@ -9,21 +9,29 @@ You may assume the two numbers do not contain any leading zero, except the numbe
 
 Input: (2 -> 4 -> 3) + (5 -> 6 -> 4)
 Output: 7 -> 0 -> 8
+
+Usage:
+    node add_two_numbers.js, use default numbers to calculate;
+    node add_two_numbers.js 1920 385, the numbers will be parsed as two linked list for calculation.
 */
 
 // Constructor for singly-linked list
-function listNode(value) {
+function Node(value) {
     this.value = value;
     this.next = null;
 }
 
-listNode.prototype.add = function(value) {
-    var node = new listNode(value),
-        currentNode = this;
+function linkedList() {
+    this.head = null;
+}
+
+linkedList.prototype.add = function(value) {
+    var node = new Node(value),
+        currentNode = this.head;
 
     // 1st use-case: an empty list 
     if (!currentNode) {
-        this = node;
+        this.head = node;
         return node;
     }
 
@@ -37,9 +45,7 @@ listNode.prototype.add = function(value) {
 };
 
 linkedList.prototype.build = function(num) {
-    var digits = [];
     while (num > 0) {
-        digits.push = num % 10;
         this.add(num % 10);
         num = parseInt(num / 10);
     }
@@ -65,12 +71,11 @@ linkedList.prototype.print = function() {
 }
 
 /**
- * @param {ListNode} l1
- * @param {ListNode} l2
- * @return {ListNode}
+ * @param {linkedList} l1
+ * @param {linkedList} l2
  */
 var addTwoNumbers = function(l1, l2) {
-    var list, last;
+    var list, last, addedList = new linkedList();
     var value = 0;
     var node1 = l1.head, node2 = l2.head;
 
@@ -87,9 +92,11 @@ var addTwoNumbers = function(l1, l2) {
         if (last) {
             last.next = new Node(value % 10);
             last = last.next;
+            addedList.add(last.value);
         } else {
             list = new Node(value % 10);
             last = list;
+            addedList.add(last.value);
         }
 
         value = value / 10 | 0;
@@ -99,13 +106,21 @@ var addTwoNumbers = function(l1, l2) {
         last.next = new Node(value);
     }
 
-    console.log(JSON.stringify(list, 0, 4));
-    return list;
+    addedList.print();
 };
 
+
+let numArgs = process.argv.slice(2).map(parseFloat);
 let l1 = new linkedList(), l2 = new linkedList();
-l1.build(3421);
-l2.build(456);
+
+if (numArgs.length > 0) {
+    l1.build(numArgs[0]);
+    l2.build(numArgs[1]);
+} else {
+    l1.build(243);
+    l2.build(564);
+}
+
 l1.print();
 l2.print();
 addTwoNumbers(l1, l2);
